@@ -33,7 +33,7 @@ function App() {
       setError("");
 
       const res = await axios.post(
-        "http://127.0.0.1:8000/analyze",
+        "https://sme-finance-backend-0u11.onrender.com/analyze",
         form
       );
 
