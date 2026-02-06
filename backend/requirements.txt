@@ -7,3 +7,4 @@ scikit-learn
 reportlab
 SQLAlchemy
 psycopg2-binary
+openai
