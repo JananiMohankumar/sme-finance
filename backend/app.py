@@ -20,7 +20,11 @@ from docx import Document
 import pdfplumber
 
 # create tables
-Base.metadata.create_all(bind=engine)
+import os
+
+if os.getenv("DATABASE_URL"):
+    Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI(title="SME Financial Health Assessment API")
 
