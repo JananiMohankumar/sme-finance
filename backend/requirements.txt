@@ -8,3 +8,5 @@ reportlab
 SQLAlchemy
 psycopg2-binary
 openai
+python-docx
+pdfplumber
