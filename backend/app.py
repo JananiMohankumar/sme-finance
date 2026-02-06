@@ -26,7 +26,9 @@ if os.getenv("DATABASE_URL"):
     Base.metadata.create_all(bind=engine)
 
 
-app = FastAPI(title="SME Financial Health Assessment API")
+app = FastAPI(title="SME Financial Health Assessment API",docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json")
 
 app.add_middleware(
     CORSMiddleware,
