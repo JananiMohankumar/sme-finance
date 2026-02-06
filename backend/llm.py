@@ -1,8 +1,26 @@
-from openai import OpenAI
 import os
 import json
+from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+_client = None
+
+
+def get_client():
+    """
+    Create OpenAI client only when needed.
+    If API key is missing, return None instead of crashing.
+    """
+    global _client
+
+    if _client is not None:
+        return _client
+
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        return None
+
+    _client = OpenAI(api_key=api_key)
+    return _client
 
 
 def _extract_text(response):
@@ -22,6 +40,16 @@ def generate_financial_report(
     risks: list,
     credit_score: int
 ):
+
+    client = get_client()
+
+    # ✅ Safe fallback when API key is not configured
+    if client is None:
+        return (
+            "AI report is temporarily unavailable because the AI service "
+            "is not configured. Financial metrics and risk analysis were "
+            "generated successfully."
+        )
 
     prompt = f"""
 You are a professional financial advisor for Small and Medium Enterprises (SMEs).
@@ -62,6 +90,14 @@ Keep the language simple and business friendly.
 
 
 def translate_to_hindi(english_report: str):
+
+    client = get_client()
+
+    # ✅ Safe fallback when API key is not configured
+    if client is None:
+        return (
+            "एआई सेवा कॉन्फ़िगर नहीं की गई है। इसलिए हिंदी रिपोर्ट उपलब्ध नहीं है।"
+        )
 
     prompt = f"""
 Translate the following financial report into simple Hindi
